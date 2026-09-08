@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Api\ImportController;
 use App\Http\Controllers\Api\PropertyController;
+use App\Http\Controllers\Api\ReservationController;
 use Illuminate\Support\Facades\Route;
 
 Route::controller(ImportController::class)
@@ -14,3 +15,6 @@ Route::controller(ImportController::class)
 
 Route::get('/properties', PropertyController::class)
     ->name('api.properties.index');
+
+Route::post('/offers/{offer}/reservations', ReservationController::class)
+    ->name('api.offers.reservations.store');
