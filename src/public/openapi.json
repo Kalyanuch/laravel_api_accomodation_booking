@@ -1,0 +1,85 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "Accommodation Booking API",
+    "version": "1.0.0",
+    "description": "API for asynchronous supplier imports, accommodation search and reservations. Authentication is not required."
+  },
+  "servers": [{"url": "/api"}],
+  "paths": {
+    "/imports": {
+      "post": {
+        "summary": "Accept an import",
+        "description": "Creates an idempotent import and dispatches asynchronous offer processing.",
+        "requestBody": {"required": true, "content": {"application/json": {"schema": {"$ref": "#/components/schemas/ImportRequest"}}}},
+        "responses": {
+          "202": {"description": "Import accepted", "content": {"application/json": {"schema": {"$ref": "#/components/schemas/ImportAccepted"}}}},
+          "422": {"$ref": "#/components/responses/ValidationError"}
+        }
+      }
+    },
+    "/imports/{import}": {
+      "get": {
+        "summary": "Get import status",
+        "parameters": [{"$ref": "#/components/parameters/ImportId"}],
+        "responses": {
+          "200": {"description": "Current import status", "content": {"application/json": {"schema": {"$ref": "#/components/schemas/ImportStatus"}}}},
+          "404": {"$ref": "#/components/responses/NotFound"}
+        }
+      }
+    },
+    "/properties": {
+      "get": {
+        "summary": "Search properties",
+        "description": "Returns one cheapest current offer per property. Results are filtered and paginated in the database.",
+        "parameters": [
+          {"name": "check_in", "in": "query", "required": true, "schema": {"type": "string", "format": "date", "example": "2026-10-10"}},
+          {"name": "check_out", "in": "query", "required": true, "schema": {"type": "string", "format": "date", "example": "2026-10-15"}},
+          {"name": "guests", "in": "query", "required": true, "schema": {"type": "integer", "minimum": 1, "example": 2}},
+          {"name": "city", "in": "query", "required": false, "schema": {"type": "string", "maxLength": 100, "example": "Barcelona"}},
+          {"name": "page", "in": "query", "required": false, "schema": {"type": "integer", "minimum": 1, "default": 1}}
+        ],
+        "responses": {
+          "200": {"description": "Paginated property results", "content": {"application/json": {"schema": {"$ref": "#/components/schemas/PropertySearchResponse"}}}},
+          "422": {"$ref": "#/components/responses/ValidationError"}
+        }
+      }
+    },
+    "/offers/{offer}/reservations": {
+      "post": {
+        "summary": "Reserve an offer",
+        "description": "Creates one reservation while locking the offer row and atomically decrementing available units.",
+        "parameters": [{"$ref": "#/components/parameters/OfferId"}],
+        "requestBody": {"required": true, "content": {"application/json": {"schema": {"$ref": "#/components/schemas/ReservationRequest"}}}},
+        "responses": {
+          "201": {"description": "Reservation created", "content": {"application/json": {"schema": {"$ref": "#/components/schemas/ReservationResponse"}}}},
+          "404": {"$ref": "#/components/responses/NotFound"},
+          "409": {"description": "Offer is sold out or expired"},
+          "422": {"$ref": "#/components/responses/ValidationError"}
+        }
+      }
+    }
+  },
+  "components": {
+    "parameters": {
+      "ImportId": {"name": "import", "in": "path", "required": true, "schema": {"type": "integer", "format": "int64"}},
+      "OfferId": {"name": "offer", "in": "path", "required": true, "schema": {"type": "integer", "format": "int64"}}
+    },
+    "responses": {
+      "NotFound": {"description": "Resource not found"},
+      "ValidationError": {"description": "Validation failed", "content": {"application/json": {"schema": {"$ref": "#/components/schemas/ValidationError"}}}}
+    },
+    "schemas": {
+      "Property": {"type": "object", "required": ["code", "name", "city", "best_offer"], "properties": {"code": {"type": "string"}, "name": {"type": "string"}, "city": {"type": "string"}, "best_offer": {"$ref": "#/components/schemas/BestOffer"}}},
+      "BestOffer": {"type": "object", "required": ["id", "supplier", "price", "currency", "available_units", "expires_at"], "properties": {"id": {"type": "integer"}, "supplier": {"type": "string"}, "price": {"type": "integer", "description": "Amount in the smallest currency unit"}, "currency": {"type": "string", "pattern": "^[A-Z]{3}$"}, "available_units": {"type": "integer"}, "expires_at": {"type": "string", "format": "date-time"}}},
+      "PropertySearchResponse": {"type": "object", "required": ["data", "next", "prev", "per_page"], "properties": {"data": {"type": "array", "items": {"$ref": "#/components/schemas/Property"}}, "next": {"type": "string", "nullable": true, "format": "uri"}, "prev": {"type": "string", "nullable": true, "format": "uri"}, "per_page": {"type": "integer"}}},
+      "ImportRequest": {"type": "object", "required": ["supplier", "external_import_id", "sent_at", "offers"], "properties": {"supplier": {"type": "string", "example": "supplier-a"}, "external_import_id": {"type": "string"}, "sent_at": {"type": "string", "format": "date-time"}, "offers": {"type": "array", "minItems": 1, "items": {"$ref": "#/components/schemas/ImportOffer"}}}},
+      "ImportOffer": {"type": "object", "required": ["external_id", "property", "check_in", "check_out", "max_guests", "price", "currency", "available_units", "expires_at"], "properties": {"external_id": {"type": "string"}, "property": {"type": "object", "required": ["code", "name", "city"], "properties": {"code": {"type": "string"}, "name": {"type": "string"}, "city": {"type": "string"}}}, "check_in": {"type": "string", "format": "date"}, "check_out": {"type": "string", "format": "date"}, "max_guests": {"type": "integer", "minimum": 1}, "price": {"type": "integer", "minimum": 0}, "currency": {"type": "string", "pattern": "^[A-Z]{3}$"}, "available_units": {"type": "integer", "minimum": 0}, "expires_at": {"type": "string", "format": "date-time"}}},
+      "ImportAccepted": {"type": "object", "properties": {"data": {"type": "object", "properties": {"id": {"type": "integer"}, "status": {"type": "string", "enum": ["pending", "processing", "completed", "failed"]}}}}},
+      "ImportStatus": {"type": "object", "properties": {"data": {"type": "object", "properties": {"id": {"type": "integer"}, "supplier": {"type": "string"}, "external_import_id": {"type": "string"}, "sent_at": {"type": "string", "format": "date-time"}, "status": {"type": "string"}, "total_offers": {"type": "integer"}, "processed_offers": {"type": "integer"}, "error": {"type": "string", "nullable": true}, "created_at": {"type": "string", "format": "date-time"}, "completed_at": {"type": "string", "nullable": true, "format": "date-time"}}}}},
+      "ReservationRequest": {"type": "object", "required": ["client_reference", "customer_name", "customer_email"], "properties": {"client_reference": {"type": "string", "maxLength": 255}, "customer_name": {"type": "string", "maxLength": 255}, "customer_email": {"type": "string", "format": "email", "maxLength": 255}}},
+      "ReservationResponse": {"type": "object", "properties": {"data": {"type": "object", "properties": {"id": {"type": "integer"}, "offer_id": {"type": "integer"}, "client_reference": {"type": "string"}, "customer_name": {"type": "string"}, "customer_email": {"type": "string", "format": "email"}, "created_at": {"type": "string", "format": "date-time"}}}}},
+      "ValidationError": {"type": "object", "properties": {"message": {"type": "string"}, "errors": {"type": "object", "additionalProperties": {"type": "array", "items": {"type": "string"}}}}}
+    }
+  }
+}
