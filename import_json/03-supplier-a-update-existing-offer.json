@@ -1,0 +1,13 @@
+{
+  "supplier": "supplier-a",
+  "external_import_id": "import-a-2026-09-08-002",
+  "sent_at": "2026-09-08T09:00:00Z",
+  "offers": [
+    {
+      "external_id": "offer-a-bcn-0001-standard",
+      "property": {"code": "BCN-0001", "name": "Apartment near Sagrada Familia", "city": "Barcelona"},
+      "check_in": "2026-10-10", "check_out": "2026-10-15", "max_guests": 4,
+      "price": 70500, "currency": "EUR", "available_units": 4, "expires_at": "2026-10-05T23:59:59Z"
+    }
+  ]
+}

@@ -1,0 +1,19 @@
+{
+  "supplier": "supplier-a",
+  "external_import_id": "import-a-2026-09-08-003",
+  "sent_at": "2026-09-08T09:30:00Z",
+  "offers": [
+    {
+      "external_id": "offer-a-mad-0001",
+      "property": {"code": "MAD-0001", "name": "Central Madrid Residence", "city": "Madrid"},
+      "check_in": "2026-11-01", "check_out": "2026-11-07", "max_guests": 2,
+      "price": 84000, "currency": "EUR", "available_units": 2, "expires_at": "2026-10-20T20:00:00Z"
+    },
+    {
+      "external_id": "offer-a-mad-0002",
+      "property": {"code": "MAD-0002", "name": "Retiro Park Apartment", "city": "Madrid"},
+      "check_in": "2026-11-01", "check_out": "2026-11-07", "max_guests": 5,
+      "price": 112500, "currency": "EUR", "available_units": 1, "expires_at": "2026-10-22T20:00:00Z"
+    }
+  ]
+}

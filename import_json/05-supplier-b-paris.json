@@ -1,0 +1,19 @@
+{
+  "supplier": "supplier-b",
+  "external_import_id": "import-b-2026-09-08-002",
+  "sent_at": "2026-09-08T10:00:00Z",
+  "offers": [
+    {
+      "external_id": "offer-b-par-0001",
+      "property": {"code": "PAR-0001", "name": "Montmartre City View", "city": "Paris"},
+      "check_in": "2026-12-20", "check_out": "2026-12-27", "max_guests": 2,
+      "price": 135000, "currency": "EUR", "available_units": 2, "expires_at": "2026-12-01T12:00:00Z"
+    },
+    {
+      "external_id": "offer-b-par-0002",
+      "property": {"code": "PAR-0002", "name": "Latin Quarter Suite", "city": "Paris"},
+      "check_in": "2026-12-20", "check_out": "2026-12-27", "max_guests": 4,
+      "price": 168000, "currency": "EUR", "available_units": 1, "expires_at": "2026-12-02T12:00:00Z"
+    }
+  ]
+}

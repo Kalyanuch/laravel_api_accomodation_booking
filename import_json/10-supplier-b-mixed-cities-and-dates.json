@@ -1,0 +1,25 @@
+{
+  "supplier": "supplier-b",
+  "external_import_id": "import-b-2026-09-08-005",
+  "sent_at": "2026-09-08T12:30:00Z",
+  "offers": [
+    {
+      "external_id": "offer-b-rom-0001",
+      "property": {"code": "ROM-0001", "name": "Trastevere Courtyard Home", "city": "Rome"},
+      "check_in": "2026-10-10", "check_out": "2026-10-15", "max_guests": 4,
+      "price": 88000, "currency": "EUR", "available_units": 2, "expires_at": "2026-10-01T08:00:00Z"
+    },
+    {
+      "external_id": "offer-b-rom-0002-long-stay",
+      "property": {"code": "ROM-0002", "name": "Vatican Family Apartment", "city": "Rome"},
+      "check_in": "2026-10-10", "check_out": "2026-10-20", "max_guests": 6,
+      "price": 175000, "currency": "EUR", "available_units": 1, "expires_at": "2026-10-02T08:00:00Z"
+    },
+    {
+      "external_id": "offer-b-bcn-0002-other-dates",
+      "property": {"code": "BCN-0002", "name": "Gothic Quarter Family Loft", "city": "Barcelona"},
+      "check_in": "2026-11-05", "check_out": "2026-11-10", "max_guests": 6,
+      "price": 97000, "currency": "EUR", "available_units": 2, "expires_at": "2026-10-25T23:59:59Z"
+    }
+  ]
+}

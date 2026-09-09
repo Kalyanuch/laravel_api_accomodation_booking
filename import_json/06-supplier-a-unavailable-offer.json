@@ -1,0 +1,13 @@
+{
+  "supplier": "supplier-a",
+  "external_import_id": "import-a-2026-09-08-004",
+  "sent_at": "2026-09-08T10:30:00Z",
+  "offers": [
+    {
+      "external_id": "offer-a-bcn-0004-sold-out",
+      "property": {"code": "BCN-0004", "name": "Barceloneta Beach Flat", "city": "Barcelona"},
+      "check_in": "2026-10-10", "check_out": "2026-10-15", "max_guests": 4,
+      "price": 65000, "currency": "EUR", "available_units": 0, "expires_at": "2026-10-06T23:59:59Z"
+    }
+  ]
+}

@@ -1,0 +1,19 @@
+{
+  "supplier": "supplier-a",
+  "external_import_id": "import-a-2026-09-08-005",
+  "sent_at": "2026-09-08T11:30:00Z",
+  "offers": [
+    {
+      "external_id": "offer-a-lis-0001-flex",
+      "property": {"code": "LIS-0001", "name": "Alfama River Apartment", "city": "Lisbon"},
+      "check_in": "2026-11-10", "check_out": "2026-11-14", "max_guests": 4,
+      "price": 76000, "currency": "EUR", "available_units": 2, "expires_at": "2026-11-01T10:00:00Z"
+    },
+    {
+      "external_id": "offer-a-lis-0001-basic",
+      "property": {"code": "LIS-0001", "name": "Alfama River Apartment", "city": "Lisbon"},
+      "check_in": "2026-11-10", "check_out": "2026-11-14", "max_guests": 2,
+      "price": 68000, "currency": "EUR", "available_units": 1, "expires_at": "2026-10-28T10:00:00Z"
+    }
+  ]
+}

@@ -1,0 +1,19 @@
+{
+  "supplier": "supplier-a",
+  "external_import_id": "import-a-2026-09-08-001",
+  "sent_at": "2026-09-08T08:00:00Z",
+  "offers": [
+    {
+      "external_id": "offer-a-bcn-0001-standard",
+      "property": {"code": "BCN-0001", "name": "Apartment near Sagrada Familia", "city": "Barcelona"},
+      "check_in": "2026-10-10", "check_out": "2026-10-15", "max_guests": 4,
+      "price": 72500, "currency": "EUR", "available_units": 2, "expires_at": "2026-10-01T23:59:59Z"
+    },
+    {
+      "external_id": "offer-a-bcn-0002-family",
+      "property": {"code": "BCN-0002", "name": "Gothic Quarter Family Loft", "city": "Barcelona"},
+      "check_in": "2026-10-10", "check_out": "2026-10-15", "max_guests": 6,
+      "price": 91000, "currency": "EUR", "available_units": 1, "expires_at": "2026-10-02T12:00:00Z"
+    }
+  ]
+}
